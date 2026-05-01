@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  radar:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: base:v1
+    container_name: radar_ros2
+    restart: always
+    privileged: true
+    init: true
+    stop_signal: SIGINT
+    stop_grace_period: 20s
+    environment:
+      - SUBNET=${SUBNET:-33}
+      - RADAR_HOST_SUFFIX=${RADAR_HOST_SUFFIX:-30}
+      - RADAR_BOARD_SUFFIX=${RADAR_BOARD_SUFFIX:-180}
+    volumes:
+      - /dev:/dev
+      - ./configs:/configs:ro
+    networks:
+      macvlan_setting:
+        ipv4_address: "192.168.${SUBNET:-33}.${RADAR_HOST_SUFFIX:-30}"
+    command: >
+      bash -lc
+      "ros2 launch src/radar_driver_cpp/launch/radar_cpp.launch.py
+      radar_config_filename:=${RADAR_CONFIG_FILENAME:-AWR2243_mmwaveconfig_max15.txt}
+      dca_config_filename:=${DCA_CONFIG_FILENAME:-dca_config.txt}
+      enable_processing:=false"
+
+  bag:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: base:v1
+    container_name: bag_ros2
+    restart: always
+    privileged: true
+    init: true
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    stop_signal: SIGINT
+    environment:
+      - SUBNET=${SUBNET:-33}
+      - HOME=/tmp
+      - ROS_LOG_DIR=/tmp/.ros/log
+    stop_grace_period: 10s
+    volumes:
+      - /dev:/dev
+      - ./output:/output
+    working_dir: /output
+    networks:
+      macvlan_setting:
+        ipv4_address: "192.168.${SUBNET:-33}.201"
+    command: >
+      bash -lc
+      "mkdir -p /tmp/.ros/log &&
+      ros2 bag record -s mcap --all"
+
+  foxglove:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: base:v1
+    container_name: foxglove_ros2
+    restart: always
+    privileged: true
+    init: true
+    stop_signal: SIGINT
+    stop_grace_period: 10s
+    environment:
+      - SUBNET=${SUBNET:-33}
+      - HOME=/tmp
+      - ROS_LOG_DIR=/tmp/.ros/log
+    volumes:
+      - /dev:/dev
+    networks:
+      macvlan_setting:
+        ipv4_address: "192.168.${SUBNET:-33}.220"
+    ports:
+      - "8765:8765"
+    command: >
+      bash -lc
+      "mkdir -p /tmp/.ros/log &&
+      ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+      address:=0.0.0.0
+      port:=8765"
+
+networks:
+  macvlan_setting:
+    driver: macvlan
+    driver_opts:
+      parent: ${RADAR_PARENT_IFACE:?Set RADAR_PARENT_IFACE in .env or the shell environment}
+    ipam:
+      config:
+        - subnet: "192.168.${SUBNET:-33}.0/24"
+          gateway: "192.168.${SUBNET:-33}.1"

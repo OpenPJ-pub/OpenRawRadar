@@ -1,0 +1,17 @@
+*.idea
+.DS_Store
+
+**/__pycache__/*
+**/cmake-build-debug/*
+
+ros_workspace/build
+ros_workspace/log
+ros_workspace/install
+
+**/build/*
+*.csv
+*.png
+*.mp4
+
+!asserts/**
+output/

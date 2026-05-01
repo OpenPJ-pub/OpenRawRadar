@@ -1,0 +1,6 @@
+dataLoggingMode=raw
+dataTransferMode=LVDSCapture
+dataCaptureMode=ethernetStream
+lvdsMode=1
+dataFormatMode=3
+packetDelay_us=5

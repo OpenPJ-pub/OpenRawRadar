@@ -1,0 +1,238 @@
+#
+#For detailed view of mmWave Radar configuration structure
+#please refer 
+#ti\control\mmwavelink\docs\doxygen\html\index.html
+#
+
+#
+#cascade mode enable
+#
+cascade_enable=0;
+#END
+
+#
+#Global configuration
+#Firmware download enable/disable; 1 - Enable; 0 - Disable
+#mmWaveLink logging enable/disable; 1 - Enable; 0 - Disable
+#Transport mode; 1 - I2C; 0 - SPI
+#Flash connected enable/disable; 1 - Enable; 0 - Disable
+#
+EnableFwDownload=1;
+EnableMmwlLogging=0;
+TransferMode=0;
+IsFlashConnected=1;
+#END
+
+#
+#power on master arguments, please modify if needed.
+#rlClientCbs_t: crcType 0:16Bit/1:32Bit/2:64Bit, 
+# ackTimeout: This timeout value can vary on different PC, user needs to recalibrate 
+#  this value based on the system where this application runs. Ideally ackTimeout 
+#  should be in range of ~5mSec 
+#
+crcType=0;
+ackTimeout=50000;
+#END
+
+#
+#channel config parameters, please modify if needed.
+#rlChanCfg_t
+#
+channelTx=7;
+channelRx=15;
+cascading=0;
+#END
+
+#
+#ADC out config parameters, please modify if needed.
+#rlAdcOutCfg_t
+#
+adcBits=2;
+adcFormat=1;
+#END
+
+#
+#DATA format config parameters, please modify if needed.
+#rlDevDataFmtCfg_t
+#
+rxChanEn=15;
+adcBitsD=2;
+adcFmt=1;
+iqSwapSel=0;
+chInterleave=0;
+#END
+
+#
+#Low power config Paramters, please modify if needed.
+#rlLowPowerModeCfg_t
+#
+anaCfg=0;
+lpAdcMode=0;
+#END
+
+#
+#Data Path config parameters, please modify if needed
+#rlDevDataPathCfg_t
+# intfSel = {0 (CSI2), 1 (LVDS), 2 (SPI)}
+# transferFmtPkt0 = {1 (ADC_DATA_ONLY), 6 (CP_ADC_DATA), 9 (ADC_CP_DATA), 54 (CP_ADC_CQ_DATA), b7:6= 00 (Virtual channel number 0), 01 (Virtual channel number 1), 10 (Virtual channel number 2), 11 (Virtual channel number 0)}
+# transferFmtPkt1 = {0 (Suppress Packet 1), 14 (CP_CQ_DATA), 11 (CQ_CP_DATA), b7:6= 00 (Virtual channel number 0), 01 (Virtual channel number 1), 10 (Virtual channel number 2), 11 (Virtual channel number 0)}
+# cqConfig = {0 (12 bit), 1 (14 bit), 2 (16 bit)}
+# cq0TransSize = 32-128
+#
+intfSel=1;
+transferFmtPkt0=1;
+transferFmtPkt1=0;
+cqConfig=2;
+cq0TransSize=132;
+cq1TransSize=132;
+cq2TransSize=72;
+#END
+
+#
+#LVDS clock config parameters, please modify if needed
+#rlDevDataPathClkCfg_t
+#
+laneClk=1;
+dataRate=1;
+#END
+
+#
+#SET HSI clock parameters, please modify if needed.
+#rlDevHsiClk_t
+#
+hsiClk=9
+#END
+
+#
+#LANE config parameters, please modify if needed.
+#rlDevLaneEnable_t
+#
+laneEn=15;
+#END
+
+#
+#LVDS Lane Config parameters, please modify if needed.
+#rlDevLvdsLaneCfg_t
+#
+laneFmtMap=0;
+laneParamCfg=1;
+#END
+
+#
+#Programmable Filter config parameters, please modify if needed.
+#rlRfProgFiltConf_t
+#
+#profileId=0;
+#coeffStartIdx=0;
+#progFiltLen=14;
+#progFiltFreqShift=100;
+#END
+
+#
+#Profile config parameters, please modify if needed.
+#rlProfileCfg_t
+#
+profileId=0;
+pfVcoSelect=2;
+startFreqConst=1435384035;
+idleTimeConst=1000;
+adcStartTimeConst=700;
+rampEndTime=2600;
+txOutPowerBackoffCode=0;
+txPhaseShifter=0;
+freqSlopeConst=3100;
+txStartTime=100;
+numAdcSamples=200;
+digOutSampleRate=19500;
+hpfCornerFreq1=0;
+hpfCornerFreq2=0;
+rxGain=96;#32+1<<6
+#END
+
+#
+#Chirp Configuration parameters, please modify if needed.
+#rlChirpCfg_t
+#
+chirpStartIdx=0;
+chirpEndIdx=0;
+profileIdCPCFG=0;
+startFreqVar=0;
+freqSlopeVar=0;
+idleTimeVar=0;
+adcStartTimeVar=0;
+txEnable=1;
+#END
+
+#
+#Chirp Configuration parameters, please modify if needed.
+#rlChirpCfg_t
+#
+chirpStartIdx=1;
+chirpEndIdx=1;
+profileIdCPCFG=0;
+startFreqVar=0;
+freqSlopeVar=0;
+idleTimeVar=0;
+adcStartTimeVar=0;
+txEnable=2;
+#END
+
+#
+#Chirp Configuration parameters, please modify if needed.
+#rlChirpCfg_t
+#
+chirpStartIdx=2;
+chirpEndIdx=2;
+profileIdCPCFG=0;
+startFreqVar=0;
+freqSlopeVar=0;
+idleTimeVar=0;
+adcStartTimeVar=0;
+txEnable=4;
+#END
+
+#
+#Frame configuration parameters, please modify if needed.
+#rlFrameCfg_t
+#
+chirpStartIdxFCF=0;
+chirpEndIdxFCF=2;
+frameCount=0;
+loopCount=255;
+periodicity=19800000;
+triggerDelay=0;
+numAdcSamples=400;
+triggerSelect=2;
+#END
+
+#
+#Temp Mon configuration parameters, please modify if needed.
+TempMon_reportMode=2;
+TempMon_anaTempThreshMin=-40;
+TempMon_anaTempThreshMax=135;
+TempMon_digTempThreshMin=-40;
+TempMon_digTempThreshMax=135;
+TempMon_tempDiffThresh=30;
+#END
+
+#
+#Rx Gain Phase Mon configuration parameters, please modify if needed.
+RxGainPhaMon_profileIndx=0;
+RxGainPhaMon_rfFreqBitMask=7;
+RxGainPhaMon_reportMode=2;
+RxGainPhaMon_txSel=0;
+RxGainPhaMon_rxGainAbsThresh=500;
+RxGainPhaMon_rxGainMismatchErrThresh=500;
+RxGainPhaMon_rxGainFlatnessErrThresh=500;
+RxGainPhaMon_rxGainPhaseMismatchErrThresh=18204;
+RxGainPhaMon_rxGainMismatchOffsetVal=0;
+RxGainPhaMon_rxGainPhaseMismatchOffsetVal=0;
+#END
+
+#
+#Rx Noise Mon configuration parameters, please modify if needed.
+RxNoiseMon_profileIndx=0;
+RxNoiseMon_reportMode=2;
+RxNoiseMon_rfFreqBitMask=7;
+RxNoiseMon_noiseThresh=500;
+#END
