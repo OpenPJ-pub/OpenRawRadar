@@ -13,5 +13,5 @@ ros_workspace/install
 *.png
 *.mp4
 
-!asserts/**
+!assets/**
 output/

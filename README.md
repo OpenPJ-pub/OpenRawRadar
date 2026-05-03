@@ -37,7 +37,7 @@
 # 🔌 Hardware
 
 <p align="center">
-  <img src="asserts/hardware_setup.png" alt="AWR2243 + DCA1000EVM wiring" width="720"/>
+  <img src="assets/hardware_setup.png" alt="AWR2243 + DCA1000EVM wiring" width="720"/>
 </p>
 
 1. Connect the **micro-USB** and **RJ45** cables, and set the **key / SOP** jumpers as shown in the diagram above.
